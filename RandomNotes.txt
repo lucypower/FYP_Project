@@ -4,3 +4,7 @@ teleportation anchor - can teleport to specific spot
 anchor could be used to locking player into a specific angle, such as the prep station or stove
 
 find way to turn with head? might reduce motion sickness?
+
+
+https://www.youtube.com/watch?v=GQzW6ZJFQ94&t=1035s
+

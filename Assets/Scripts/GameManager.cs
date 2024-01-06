@@ -6,7 +6,10 @@ using UnityEngine.XR.Interaction.Toolkit;
 public class GameManager : MonoBehaviour
 {
     public List<GameObject> m_slicedObjs = new List<GameObject>();
+    public List<GameObject> m_plateIngre = new List<GameObject>();
     public bool m_objectHeld;
+
+    public GameObject m_onion; //move to ingredient manager later
 
     public void ObjectHeld()
     {

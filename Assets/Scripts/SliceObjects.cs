@@ -3,15 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using EzySlice;
 using UnityEngine.InputSystem;
+using Unity.VisualScripting;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public class SliceObjects : MonoBehaviour
 {
+    GameManager m_gameManager;
+    IngredientManager ingredientManager;
+
     public Transform m_startSlicePoint;
     public Transform m_endSlicePoint;
     public VelocityEstimator m_vEstimator;
 
     public float m_cutForce;
     public LayerMask m_sliceableLayer;
+
+    public bool m_isCutting;
+
+    private void Awake()
+    {
+        m_gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+    }
 
     void FixedUpdate()
     {
@@ -22,7 +34,7 @@ public class SliceObjects : MonoBehaviour
             GameObject target = hit.transform.gameObject;
             Slice(target);
         }
-    }
+    }       
 
     public void Slice(GameObject targetObject)
     {
@@ -37,11 +49,18 @@ public class SliceObjects : MonoBehaviour
             GameObject upperHull = slicedHull.CreateUpperHull(targetObject, targetObject.GetComponent<Renderer>().material);
             SetupSlicedComponent(upperHull);
             upperHull.gameObject.layer = LayerMask.NameToLayer("Sliceable");
+            m_gameManager.m_slicedObjs.Add(upperHull);
             
 
             GameObject lowerHull = slicedHull.CreateLowerHull(targetObject, targetObject.GetComponent<Renderer>().material);
             SetupSlicedComponent(lowerHull);
             lowerHull.gameObject.layer = LayerMask.NameToLayer("Sliceable");
+            m_gameManager.m_slicedObjs.Add(lowerHull);
+
+            if(m_gameManager.m_slicedObjs.Contains(targetObject))
+            {
+                m_gameManager.m_slicedObjs.Remove(targetObject);
+            }
 
             Destroy(targetObject);
         }
@@ -49,9 +68,20 @@ public class SliceObjects : MonoBehaviour
 
     public void SetupSlicedComponent(GameObject slicedObject)
     {
-        Rigidbody rb = slicedObject.AddComponent<Rigidbody>();
+        slicedObject.AddComponent<Rigidbody>();
         MeshCollider collider = slicedObject.AddComponent<MeshCollider>();
         collider.convex = true;
-        rb.AddExplosionForce(m_cutForce, slicedObject.transform.position, 1);
+
+        if(slicedObject.GetComponent<XRGrabInteractable>() == null)
+        {
+            slicedObject.AddComponent<XRGrabInteractable>();            
+        }
+
+        if (slicedObject.GetComponent<CookingIngredient>() == null)
+        {
+            slicedObject.AddComponent<CookingIngredient>();
+        }
+
+        slicedObject.tag = "Onion"; // work out how to be dynamic later
     }
 }

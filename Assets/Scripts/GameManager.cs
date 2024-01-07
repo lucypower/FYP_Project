@@ -8,8 +8,18 @@ public class GameManager : MonoBehaviour
     public List<GameObject> m_slicedObjs = new List<GameObject>();
     public List<GameObject> m_plateIngre = new List<GameObject>();
     public bool m_objectHeld;
+    
+    public enum GameState
+    {
+        Idle,
+        Recipe1,
+        Recipe2
+    };
 
-    public GameObject m_onion; //move to ingredient manager later
+    private void Awake()
+    {
+        
+    }
 
     public void ObjectHeld()
     {

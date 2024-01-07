@@ -9,6 +9,7 @@ using UnityEngine.XR.Interaction.Toolkit;
 public class SliceObjects : MonoBehaviour
 {
     GameManager m_gameManager;
+    IngredientManager ingredientManager;
 
     public Transform m_startSlicePoint;
     public Transform m_endSlicePoint;
@@ -67,16 +68,20 @@ public class SliceObjects : MonoBehaviour
 
     public void SetupSlicedComponent(GameObject slicedObject)
     {
-        Rigidbody rb = slicedObject.AddComponent<Rigidbody>();
+        slicedObject.AddComponent<Rigidbody>();
         MeshCollider collider = slicedObject.AddComponent<MeshCollider>();
         collider.convex = true;
 
-        //slicedObject.AddComponent<XRGrabInteractable>();
+        if(slicedObject.GetComponent<XRGrabInteractable>() == null)
+        {
+            slicedObject.AddComponent<XRGrabInteractable>();            
+        }
 
-        //GameObject empty = new("attach");
-        //empty.transform.parent = slicedObject.gameObject.transform;
-        ////Transform emptyTrans = empty.transform;
+        if (slicedObject.GetComponent<CookingIngredient>() == null)
+        {
+            slicedObject.AddComponent<CookingIngredient>();
+        }
 
-        //empty.transform.parent = slicedObject.AddComponent<XRGrabInteractable>().attachTransform;
+        slicedObject.tag = "Onion"; // work out how to be dynamic later
     }
 }

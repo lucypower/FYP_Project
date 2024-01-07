@@ -23,7 +23,7 @@ public class InputReader : MonoBehaviour
         foreach (var inputDevice in m_inputDevices)
         {
             inputDevice.TryGetFeatureValue(CommonUsages.trigger, out float triggerValue);
-            Debug.Log(inputDevice.name + " " + triggerValue);
+            //Debug.Log(inputDevice.name + " " + triggerValue);
 
             if (triggerValue > 0.1f)
             {
@@ -33,6 +33,9 @@ public class InputReader : MonoBehaviour
             {
                 m_leftTriggerPressed = false;
             }
+
+            inputDevice.TryGetFeatureValue(CommonUsages.secondaryButton, out bool yButton);
+            //Debug.Log(inputDevice.name + " " + yButton);
                 
 
             //Debug.Log(inputDevice.name + " " + inputDevice.characteristics);

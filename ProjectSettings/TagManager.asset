@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Plate
+  - Onion
+  - Button
+  - Pepper
   layers:
   - Default
   - TransparentFX

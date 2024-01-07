@@ -9,13 +9,17 @@ public class Player : MonoBehaviour
 {
     GameManager m_gameManager;
     InputReader m_inputReader;
+    IngredientManager m_ingredientManager;
+    TableTrigger m_tableTrigger;
 
+    public GameObject m_table;
     public bool m_pickedUp;
 
     private void Awake()
     {
         m_gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         m_inputReader = GameObject.Find("InputReader").GetComponent<InputReader>();
+        m_tableTrigger = m_table.GetComponentInChildren<TableTrigger>();
     }
 
     private void Start()
@@ -48,7 +52,7 @@ public class Player : MonoBehaviour
             var position = new Vector3(Random.Range(-0.1f, 0.1f), 0.01f, Random.Range(-0.1f, 0.1f));
             var rotation = new Quaternion(0, Random.Range(-90, 90), 0, 0);
 
-            GameObject ingredient = Instantiate(m_gameManager.m_onion, plate.transform.position + position, rotation);
+            GameObject ingredient = Instantiate(m_ingredientManager.m_onion, plate.transform.position + position, rotation);
             ingredient.transform.parent = plate.transform;
 
             m_gameManager.m_plateIngre.Add(ingredient);

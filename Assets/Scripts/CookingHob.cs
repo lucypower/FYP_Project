@@ -10,11 +10,13 @@ public class CookingHob : MonoBehaviour
     public bool m_isCooking;
     public float m_secs;
     public bool m_hobOn;
+    public bool m_overHob;
 
     private void Awake()
     {
         m_isCooking = false;
         m_hobOn = true;
+        m_overHob = false;
     }
 
     private void Update()
@@ -32,13 +34,26 @@ public class CookingHob : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (m_hobOn)
+        //if (m_hobOn)
+        //{
+        //    if (other.gameObject.CompareTag("Onion"))
+        //    {
+        //        Debug.Log("onion");
+        //        StartCook(15);
+        //    }
+        //}
+
+        if (other.gameObject.CompareTag("Plate"))
         {
-            if (other.gameObject.CompareTag("Onion"))
-            {
-                Debug.Log("onion");
-                StartCook(15);
-            }
+            m_overHob = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Plate"))
+        {
+            m_overHob = false;
         }
     }
 

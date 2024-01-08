@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public class InputReader : MonoBehaviour
 {
     List<InputDevice> m_inputDevices = new List<InputDevice>();
     public bool m_leftTriggerPressed;
+    public string m_itemHovered;
 
     private void Start()
     {
@@ -23,7 +25,7 @@ public class InputReader : MonoBehaviour
         foreach (var inputDevice in m_inputDevices)
         {
             inputDevice.TryGetFeatureValue(CommonUsages.trigger, out float triggerValue);
-            //Debug.Log(inputDevice.name + " " + triggerValue);
+            Debug.Log(inputDevice.name + " " + triggerValue);
 
             if (triggerValue > 0.1f)
             {
@@ -48,5 +50,19 @@ public class InputReader : MonoBehaviour
         {
             InitialiseInputReader();
         }
+    }
+
+    public void OnHoverEntered(HoverEnterEventArgs args)
+    {
+        Debug.Log($"{args.interactorObject} hovered over {args.interactableObject}", this);
+
+        m_itemHovered = args.interactableObject.ToString();
+    }
+
+    public void OnHoverExited(HoverExitEventArgs args)
+    {
+        Debug.Log($"{args.interactorObject} stopped hovering over {args.interactableObject}", this);
+
+        m_itemHovered = "";
     }
 }

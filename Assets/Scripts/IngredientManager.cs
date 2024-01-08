@@ -5,11 +5,6 @@ using UnityEngine;
 public class IngredientManager : MonoBehaviour
 {
     public GameObject m_onion;
-
-    public string m_tag;
-
-    private void Awake()
-    {
-        gameObject.tag = m_tag;
-    }
+    public GameObject m_onionPlate;
+    public GameObject m_pepperPlate;
 }

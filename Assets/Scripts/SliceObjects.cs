@@ -5,6 +5,7 @@ using EzySlice;
 using UnityEngine.InputSystem;
 using Unity.VisualScripting;
 using UnityEngine.XR.Interaction.Toolkit;
+using UnityEngine.InputSystem.HID;
 
 public class SliceObjects : MonoBehaviour
 {
@@ -38,6 +39,8 @@ public class SliceObjects : MonoBehaviour
 
     public void Slice(GameObject targetObject)
     {
+        string name = targetObject.name;
+
         Vector3 velocity = m_vEstimator.GetVelocityEstimate();
         Vector3 normal = Vector3.Cross(m_endSlicePoint.position - m_startSlicePoint.position, velocity);
         normal.Normalize();
@@ -47,13 +50,13 @@ public class SliceObjects : MonoBehaviour
         if (slicedHull != null)
         {
             GameObject upperHull = slicedHull.CreateUpperHull(targetObject, targetObject.GetComponent<Renderer>().material);
-            SetupSlicedComponent(upperHull);
+            SetupSlicedComponent(upperHull, name);
             upperHull.gameObject.layer = LayerMask.NameToLayer("Sliceable");
             m_gameManager.m_slicedObjs.Add(upperHull);
             
 
             GameObject lowerHull = slicedHull.CreateLowerHull(targetObject, targetObject.GetComponent<Renderer>().material);
-            SetupSlicedComponent(lowerHull);
+            SetupSlicedComponent(lowerHull, name);
             lowerHull.gameObject.layer = LayerMask.NameToLayer("Sliceable");
             m_gameManager.m_slicedObjs.Add(lowerHull);
 
@@ -66,7 +69,7 @@ public class SliceObjects : MonoBehaviour
         }
     }
 
-    public void SetupSlicedComponent(GameObject slicedObject)
+    public void SetupSlicedComponent(GameObject slicedObject, string name)
     {
         slicedObject.AddComponent<Rigidbody>();
         MeshCollider collider = slicedObject.AddComponent<MeshCollider>();
@@ -82,6 +85,24 @@ public class SliceObjects : MonoBehaviour
             slicedObject.AddComponent<CookingIngredient>();
         }
 
-        slicedObject.tag = "Onion"; // work out how to be dynamic later
+        switch (name)
+        {
+            case "Onion":
+
+                slicedObject.tag = "Onion";
+                slicedObject.name = "Onion";
+
+                break;
+
+            case "RedPepper":
+
+                slicedObject.tag = "Pepper";
+                slicedObject.name = "RedPepper";
+
+                break;
+
+            default:
+                break;
+        }        
     }
 }

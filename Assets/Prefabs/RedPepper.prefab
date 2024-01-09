@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 6803835423169451824}
   - component: {fileID: 8707862833467455762}
   - component: {fileID: 3851612866836119337}
-  - component: {fileID: 4931897132750687369}
   m_Layer: 6
   m_Name: RedPepper
   m_TagString: Pepper
@@ -288,19 +287,6 @@ MonoBehaviour:
   m_StartingSingleGrabTransformers: []
   m_StartingMultipleGrabTransformers: []
   m_AddDefaultGrabTransformers: 1
---- !u!114 &4931897132750687369
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4329110084858484904}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d4ded43b2ab52046b8ca07937eb265e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_inPan: 0
 --- !u!1 &6644008331856498858
 GameObject:
   m_ObjectHideFlags: 0

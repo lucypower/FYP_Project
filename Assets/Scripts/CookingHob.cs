@@ -9,42 +9,59 @@ public class CookingHob : MonoBehaviour
     // take from hob settings
     
     public float m_secs;
+    public float m_secsToCook;
     //public bool m_hobOn;
 
     public GameObject m_panOnions;
     CookingIngredient m_onions;
-
-    GameObject m_peppers;
-    GameObject m_mince;
+    
+    public GameObject m_panPeppers;
+    CookingIngredient m_peppers;
     
 
     private void Awake()
     {
         m_onions = m_panOnions.GetComponent<CookingIngredient>();
-
-        //m_hobOn = true;        
+        m_peppers = m_panPeppers.GetComponent<CookingIngredient>();
     }
 
     private void Update()
     {
         if (m_panOnions.activeInHierarchy)
         {
-            if (!m_onions.m_isCooking)
+            if (!m_onions.m_isCooking && !m_onions.m_isCooked)
             {
                 StartCook();
             }
-            else if (m_onions.m_isCooking)
+            else if (m_onions.m_isCooking && !m_onions.m_isCooked)
             {
                 m_secs -= Time.smoothDeltaTime;
 
                 if (m_secs <= 0)
                 {
+                    m_onions.m_isCooked = true;
                     FinishCook();
                 }
             }
         }
 
+        if (m_panPeppers.activeInHierarchy)
+        {
+            if (!m_peppers.m_isCooking && !m_peppers.m_isCooked)
+            {
+                StartCook();
+            }
+            else if (m_peppers.m_isCooking && !m_peppers.m_isCooked)
+            {
+                m_secs -= Time.smoothDeltaTime;
 
+                if (m_secs <= 0)
+                {
+                    m_peppers.m_isCooked = true;
+                    FinishCook();
+                }
+            }
+        }
 
 
 
@@ -79,14 +96,31 @@ public class CookingHob : MonoBehaviour
     public void StartCook()
     {
         Debug.Log("Start Cook");    
-        m_onions.m_isCooking = true;
+
+        if (!m_onions.m_isCooked)
+        {
+            m_onions.m_isCooking = true;
+        }
+
+        if (!m_peppers.m_isCooked)
+        {
+            m_peppers.m_isCooking = true;
+        }
     }
 
     public void FinishCook()
-    {
+    {       
         Debug.Log("Stop Cook");
-        m_onions.m_isCooking = false;
-        m_onions.m_isCooked = true;
+
+        if (m_onions.m_isCooked)
+        {
+            m_onions.m_isCooking = false;
+        }
+
+        if (m_peppers.m_isCooked)
+        {
+            m_peppers.m_isCooking = false;
+        }
     }
 
 

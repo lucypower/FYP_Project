@@ -1,63 +1,72 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.XR.CoreUtils;
 using UnityEngine;
 
 public class CookingIngredient : MonoBehaviour
 {
     CookingHob m_cookingHob;
-    Renderer m_renderer;
+    Renderer[] m_renderer;
 
     Color m_cookedOnion;
-    //Color m_black;
-    //Color m_cookedPepper;
+    Color m_black;
+    Color m_cookedPepper;
 
     //public bool m_inPan;
     public bool m_isCooked;
     public bool m_isCooking;
-    Renderer[] m_veg;
 
     private void Awake()
     {
         m_cookingHob = GameObject.Find("HobTrigger").GetComponent<CookingHob>();
 
-        //m_renderer = GetComponent<Renderer>();
+        m_renderer = GetComponentsInChildren<Renderer>();
 
         m_cookedOnion = new Color(0.29f, 0.1134f, 0.241f, 1f);
-        //m_black = new Color(0,0,0, 1f);
-        //m_cookedPepper = new Color(0.8584f, 0.1498f, 0.1498f, 1f);
+        m_black = new Color(0,0,0, 1f);
+        m_cookedPepper = new Color(0.8584f, 0.1498f, 0.1498f, 1f);
 
         //m_inPan = false;
         m_isCooked = false;
         m_isCooking = false;
 
-        m_veg = GetComponentsInChildren<Renderer>();
     }
 
     void Update()
     {
         if (m_isCooking)
         {
-            switch (gameObject.tag)
+            for (int i = 0; i < gameObject.transform.childCount; i++)
             {
-                case ("PanOnion"):
+                switch (gameObject.transform.GetChild(i).gameObject.tag)
+                {
+                    case ("PanOnion"):
 
-                    Debug.Log("Cooking");
-                    
-                    for (int i = 0; i < m_veg.Length; i++)
-                    {
-                        m_veg[i].material.color = Color.Lerp(m_renderer.material.color, m_cookedOnion, Time.deltaTime / m_cookingHob.m_secs);
-                    }
+                        Debug.Log("Cooking");
 
-                    break;
+                        for (int j = 0; j < gameObject.transform.childCount; j++)
+                        {
+                            m_renderer[j].material.color = Color.Lerp(m_renderer[j].material.color, m_cookedOnion, Time.deltaTime / m_cookingHob.m_secs / 100);
+                        }
 
-                //case ("Pepper"):
+                        Debug.Log("Cooked");
 
-                //    m_renderer.material.color = Color.Lerp(m_renderer.material.color, m_cookedPepper, Time.deltaTime / m_cookingHob.m_secs);
+                        break;
 
-                //    break;
+                    case ("PanPepper"):
 
-                default:
-                    break;
+                        Debug.Log("PepperCook");
+
+                        for (int j = 0; j < gameObject.transform.childCount; j++)
+                        {
+                            m_renderer[j].material.color = Color.Lerp(m_renderer[j].material.color, m_cookedPepper, Time.deltaTime / m_cookingHob.m_secs / 100);
+                        }
+
+                        break;
+
+                    default:
+                        break;
+                }
             }
         }
     }

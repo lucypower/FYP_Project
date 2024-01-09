@@ -22,7 +22,7 @@ public class Player : MonoBehaviour
         m_gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         m_inputReader = GameObject.Find("InputReader").GetComponent<InputReader>();
         m_ingredientManager = GameObject.Find("IngredientManager").GetComponent<IngredientManager>();
-        m_tableTrigger = GameObject.Find("TriggerRadius1").GetComponent<TableTrigger>();
+        m_tableTrigger = GameObject.Find("TriggerRadius").GetComponent<TableTrigger>();
     }
 
     private void Start()

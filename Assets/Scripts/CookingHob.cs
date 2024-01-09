@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CookingHob : MonoBehaviour
@@ -19,7 +20,7 @@ public class CookingHob : MonoBehaviour
 
     private void Awake()
     {
-        m_onions = m_panOnions.GetComponentInChildren<CookingIngredient>();
+        m_onions = m_panOnions.GetComponent<CookingIngredient>();
 
         //m_hobOn = true;        
     }
@@ -32,22 +33,52 @@ public class CookingHob : MonoBehaviour
             {
                 StartCook();
             }
-        }
-
-        if (m_onions.m_isCooking)
-        {
-            m_secs -= Time.smoothDeltaTime;
-
-            if (m_secs <= 0)
+            else if (m_onions.m_isCooking)
             {
-                FinishCook();
+                m_secs -= Time.smoothDeltaTime;
+
+                if (m_secs <= 0)
+                {
+                    FinishCook();
+                }
             }
         }
+
+
+
+
+
+        //if (m_panOnions.activeInHierarchy)
+        //{
+        //    for (int i = 0; i < m_onions.Length; i++)
+        //    {
+        //        if (!m_onions[i].m_isCooking)
+        //        {
+        //            m_onions[i].m_isCooking = true;
+        //            StartCook();
+        //        }
+        //    }
+        //}
+
+        //for (int i = 0; i < m_onions.Length; i++)
+        //{
+        //    if (m_onions[i].m_isCooking)
+        //    {
+        //        m_secs -= Time.smoothDeltaTime;
+
+        //        if (m_secs <= 0)
+        //        {
+        //            m_onions[i].m_isCooking = false;
+        //            m_onions[i].m_isCooked = true;
+        //            FinishCook();
+        //        }
+        //    }
+        //}       
     }
 
     public void StartCook()
     {
-        Debug.Log("Start Cook");
+        Debug.Log("Start Cook");    
         m_onions.m_isCooking = true;
     }
 

@@ -8,36 +8,45 @@ public class CookingIngredient : MonoBehaviour
     Renderer m_renderer;
 
     Color m_cookedOnion;
+    //Color m_black;
     //Color m_cookedPepper;
 
     //public bool m_inPan;
     public bool m_isCooked;
     public bool m_isCooking;
+    Renderer[] m_veg;
 
     private void Awake()
     {
         m_cookingHob = GameObject.Find("HobTrigger").GetComponent<CookingHob>();
 
-        m_renderer = GetComponent<Renderer>();
+        //m_renderer = GetComponent<Renderer>();
 
         m_cookedOnion = new Color(0.29f, 0.1134f, 0.241f, 1f);
+        //m_black = new Color(0,0,0, 1f);
         //m_cookedPepper = new Color(0.8584f, 0.1498f, 0.1498f, 1f);
 
         //m_inPan = false;
         m_isCooked = false;
         m_isCooking = false;
+
+        m_veg = GetComponentsInChildren<Renderer>();
     }
 
     void Update()
     {
-        if (m_isCooking && !m_isCooked)
+        if (m_isCooking)
         {
             switch (gameObject.tag)
             {
-                case ("PanOnions"): // currently doesn't change colour for couple sides of object
+                case ("PanOnion"):
 
                     Debug.Log("Cooking");
-                    m_renderer.material.color = Color.Lerp(m_renderer.material.color, m_cookedOnion, Time.deltaTime / m_cookingHob.m_secs);
+                    
+                    for (int i = 0; i < m_veg.Length; i++)
+                    {
+                        m_veg[i].material.color = Color.Lerp(m_renderer.material.color, m_cookedOnion, Time.deltaTime / m_cookingHob.m_secs);
+                    }
 
                     break;
 
@@ -49,7 +58,7 @@ public class CookingIngredient : MonoBehaviour
 
                 default:
                     break;
-            }            
+            }
         }
     }
 

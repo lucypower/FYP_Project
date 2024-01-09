@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Plate : MonoBehaviour
 {
-    CookingHob m_cookingHob;
+    PanTrigger m_panTrigger;
 
     public string m_plateContents;
     GameObject m_pan;
@@ -12,17 +12,34 @@ public class Plate : MonoBehaviour
 
     private void Awake()
     {
-        m_cookingHob = GameObject.Find("PanTrigger").GetComponent<CookingHob>();
+        m_panTrigger = GameObject.Find("PanTrigger").GetComponent<PanTrigger>();
         m_pan = GameObject.Find("Pan");
     }
 
     private void Update()
     {
-        if (m_cookingHob.m_overHob)
+        if (m_panTrigger.m_overHob)
         {
             if (transform.up.y < 0f)
             {
-                m_pan.transform.GetChild(1).gameObject.SetActive(true);
+                switch (gameObject.name)
+                {
+                    case "OnionPlate(Clone)":
+
+                        m_pan.transform.GetChild(2).gameObject.SetActive(true);                        
+
+                        break;
+
+                    case "PepperPlate(Clone)":
+
+                        m_pan.transform.GetChild(3).gameObject.SetActive(true);
+
+                        break;
+
+                    default:
+                        break;
+                }
+
                 Destroy(this.gameObject);
             }
         }

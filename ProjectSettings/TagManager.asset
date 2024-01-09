@@ -8,6 +8,7 @@ TagManager:
   - Onion
   - Button
   - Pepper
+  - Mince
   layers:
   - Default
   - TransparentFX

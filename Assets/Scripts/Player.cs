@@ -22,7 +22,7 @@ public class Player : MonoBehaviour
         m_gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         m_inputReader = GameObject.Find("InputReader").GetComponent<InputReader>();
         m_ingredientManager = GameObject.Find("IngredientManager").GetComponent<IngredientManager>();
-        m_tableTrigger = GameObject.Find("TriggerRadius1").GetComponent<TableTrigger>();
+        m_tableTrigger = GameObject.Find("TriggerRadius").GetComponent<TableTrigger>();
     }
 
     private void Start()
@@ -53,7 +53,14 @@ public class Player : MonoBehaviour
     public void Action(string ingredient)
     {
         GameObject plate = GameObject.Find("Plate");
-        int objects = m_gameManager.m_slicedObjs.Count;        
+        int objects = m_gameManager.m_slicedObjs.Count;      
+        
+        for (int i = 0; i < objects; i++)
+        {
+            m_gameManager.m_slicedObjs.RemoveAll(i => i == null);
+        }
+
+        objects = m_gameManager.m_slicedObjs.Count;
 
         switch (ingredient)
         {
@@ -81,6 +88,7 @@ public class Player : MonoBehaviour
                     if (m_gameManager.m_slicedObjs[i].name == "RedPepper")
                     {                      
                         Destroy(m_gameManager.m_slicedObjs[i].gameObject);
+                        
                         //m_gameManager.m_slicedObjs.RemoveAt(i);
                     }
                 }
@@ -91,7 +99,7 @@ public class Player : MonoBehaviour
                 break;
         }
 
-        m_gameManager.m_slicedObjs.RemoveAll(x => x == null);
+        
 
         //for (int i = 0; i < objects; i++)
         //{

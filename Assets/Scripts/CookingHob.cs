@@ -1,71 +1,181 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CookingHob : MonoBehaviour
 {
     // heat : 0 - low / 1 - med / 2 - high
     // take from hob settings
-
-    public bool m_isCooking;
+    
     public float m_secs;
-    public bool m_hobOn;
+    public float m_secsToCook;
+    //public bool m_hobOn;
+
+    public GameObject m_panOnions;
+    CookingIngredient m_onions;
+    
+    public GameObject m_panPeppers;
+    CookingIngredient m_peppers;
+    
 
     private void Awake()
     {
-        m_isCooking = false;
-        m_hobOn = true;
+        m_onions = m_panOnions.GetComponent<CookingIngredient>();
+        m_peppers = m_panPeppers.GetComponent<CookingIngredient>();
     }
 
     private void Update()
     {
-        if (m_isCooking)
+        if (m_panOnions.activeInHierarchy)
         {
-            m_secs -= Time.smoothDeltaTime;            
-
-            if (m_secs <= 0)
+            if (!m_onions.m_isCooking && !m_onions.m_isCooked)
             {
-                FinishCook();
+                StartCook();
+            }
+            else if (m_onions.m_isCooking && !m_onions.m_isCooked)
+            {
+                m_secs -= Time.smoothDeltaTime;
+
+                if (m_secs <= 0)
+                {
+                    m_onions.m_isCooked = true;
+                    FinishCook();
+                }
             }
         }
-    }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (m_hobOn)
+        if (m_panPeppers.activeInHierarchy)
         {
-            if (other.gameObject.CompareTag("Onion"))
+            if (!m_peppers.m_isCooking && !m_peppers.m_isCooked)
             {
-                Debug.Log("onion");
-                StartCook(15);
+                StartCook();
+            }
+            else if (m_peppers.m_isCooking && !m_peppers.m_isCooked)
+            {
+                m_secs -= Time.smoothDeltaTime;
+
+                if (m_secs <= 0)
+                {
+                    m_peppers.m_isCooked = true;
+                    FinishCook();
+                }
             }
         }
+
+
+
+        //if (m_panOnions.activeInHierarchy)
+        //{
+        //    for (int i = 0; i < m_onions.Length; i++)
+        //    {
+        //        if (!m_onions[i].m_isCooking)
+        //        {
+        //            m_onions[i].m_isCooking = true;
+        //            StartCook();
+        //        }
+        //    }
+        //}
+
+        //for (int i = 0; i < m_onions.Length; i++)
+        //{
+        //    if (m_onions[i].m_isCooking)
+        //    {
+        //        m_secs -= Time.smoothDeltaTime;
+
+        //        if (m_secs <= 0)
+        //        {
+        //            m_onions[i].m_isCooking = false;
+        //            m_onions[i].m_isCooked = true;
+        //            FinishCook();
+        //        }
+        //    }
+        //}       
     }
 
-    public void StartCook(float secs) 
+    public void StartCook()
     {
-        Debug.Log("Start Cook");
-        m_secs = secs;  
+        Debug.Log("Start Cook");    
 
-        m_isCooking = true;        
+        if (!m_onions.m_isCooked)
+        {
+            m_onions.m_isCooking = true;
+        }
+
+        if (!m_peppers.m_isCooked)
+        {
+            m_peppers.m_isCooking = true;
+        }
     }
 
     public void FinishCook()
-    {
-        Debug.Log("Finish Cook"); //play ding to tell players its done
+    {       
+        Debug.Log("Stop Cook");
 
-        m_isCooking = false;
-    }
-
-    public void HobOnOff()
-    {
-        if (!m_hobOn)
+        if (m_onions.m_isCooked)
         {
-            m_hobOn = true;
+            m_onions.m_isCooking = false;
         }
-        else
+
+        if (m_peppers.m_isCooked)
         {
-            m_hobOn = false;
+            m_peppers.m_isCooking = false;
         }
     }
+
+
+
+
+
+    //private void Update()
+    //{
+    //    //if (m_isCooking)
+    //    //{
+    //    //    m_secs -= Time.smoothDeltaTime;            
+
+    //    //    if (m_secs <= 0)
+    //    //    {
+    //    //        FinishCook();
+    //    //    }
+    //    //}
+    //}
+
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    //if (m_hobOn)
+    //    //{
+    //    //    if (other.gameObject.CompareTag("Onion"))
+    //    //    {
+    //    //        Debug.Log("onion");
+    //    //        StartCook(15);
+    //    //    }
+    //    //}
+    //}
+
+    //public void StartCook(float secs) 
+    //{
+    //    Debug.Log("Start Cook");
+    //    m_secs = secs;  
+
+    //    m_isCooking = true;        
+    //}
+
+    //public void FinishCook()
+    //{
+    //    Debug.Log("Finish Cook"); //play ding to tell players its done
+
+    //    m_isCooking = false;
+    //}
+
+    //public void HobOnOff()
+    //{
+    //    if (!m_hobOn)
+    //    {
+    //        m_hobOn = true;
+    //    }
+    //    else
+    //    {
+    //        m_hobOn = false;
+    //    }
+    //}
 }

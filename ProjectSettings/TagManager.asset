@@ -11,6 +11,7 @@ TagManager:
   - Mince
   - PanOnion
   - PanPepper
+  - PanMince
   layers:
   - Default
   - TransparentFX

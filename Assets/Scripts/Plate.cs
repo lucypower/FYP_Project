@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditorInternal;
 using UnityEngine;
 
 public class Plate : MonoBehaviour
@@ -33,6 +34,18 @@ public class Plate : MonoBehaviour
                     case "PepperPlate(Clone)":
 
                         m_pan.transform.GetChild(3).gameObject.SetActive(true);
+
+                        break;
+
+                    case "MincePlate":
+
+                        m_pan.transform.GetChild(4).gameObject.SetActive(true);
+
+                        break;
+
+                    case "Passata":
+
+                        m_pan.transform.GetChild(5).gameObject.SetActive(true);
 
                         break;
 

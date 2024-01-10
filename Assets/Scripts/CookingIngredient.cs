@@ -11,6 +11,7 @@ public class CookingIngredient : MonoBehaviour
     Color m_cookedOnion;
     Color m_black;
     Color m_cookedPepper;
+    Color m_cookedMince;
 
     //public bool m_inPan;
     public bool m_isCooked;
@@ -25,6 +26,7 @@ public class CookingIngredient : MonoBehaviour
         m_cookedOnion = new Color(0.29f, 0.1134f, 0.241f, 1f);
         m_black = new Color(0,0,0, 1f);
         m_cookedPepper = new Color(0.8584f, 0.1498f, 0.1498f, 1f);
+        m_cookedMince = new Color(0.4433962f, 0.3069595f, 0.2698024f, 1f);
 
         //m_inPan = false;
         m_isCooked = false;
@@ -34,7 +36,7 @@ public class CookingIngredient : MonoBehaviour
 
     void Update()
     {
-        if (m_isCooking)
+        if (m_isCooking && !m_isCooked)
         {
             for (int i = 0; i < gameObject.transform.childCount; i++)
             {
@@ -46,7 +48,7 @@ public class CookingIngredient : MonoBehaviour
 
                         for (int j = 0; j < gameObject.transform.childCount; j++)
                         {
-                            m_renderer[j].material.color = Color.Lerp(m_renderer[j].material.color, m_cookedOnion, Time.deltaTime / m_cookingHob.m_secs / 100);
+                            m_renderer[j].material.color = Color.Lerp(m_renderer[j].material.color, m_cookedOnion, Time.deltaTime / m_cookingHob.m_secs);
                         }
 
                         Debug.Log("Cooked");
@@ -59,7 +61,16 @@ public class CookingIngredient : MonoBehaviour
 
                         for (int j = 0; j < gameObject.transform.childCount; j++)
                         {
-                            m_renderer[j].material.color = Color.Lerp(m_renderer[j].material.color, m_cookedPepper, Time.deltaTime / m_cookingHob.m_secs / 100);
+                            m_renderer[j].material.color = Color.Lerp(m_renderer[j].material.color, m_cookedPepper, Time.deltaTime / m_cookingHob.m_secs);
+                        }
+
+                        break;
+
+                    case ("PanMince"):
+
+                        for (int j = 0; j < gameObject.transform.childCount; j++)
+                        {
+                            m_renderer[j].material.color = Color.Lerp(m_renderer[j].material.color, m_cookedMince, Time.deltaTime / m_cookingHob.m_secs);
                         }
 
                         break;
@@ -70,20 +81,4 @@ public class CookingIngredient : MonoBehaviour
             }
         }
     }
-
-    //private void OnCollisionEnter(Collision collision)
-    //{
-    //    if (collision.gameObject.name == "Pan")
-    //    {
-    //        m_inPan = true;
-    //    }
-    //}
-
-    //private void OnCollisionExit(Collision collision)
-    //{
-    //    if (collision.gameObject.name == "Pan")
-    //    {
-    //        m_inPan = false;
-    //    }
-    //}
 }

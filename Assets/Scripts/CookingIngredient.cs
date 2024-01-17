@@ -26,7 +26,7 @@ public class CookingIngredient : MonoBehaviour
         m_cookedOnion = new Color(0.29f, 0.1134f, 0.241f, 1f);
         m_black = new Color(0,0,0, 1f);
         m_cookedPepper = new Color(0.8584f, 0.1498f, 0.1498f, 1f);
-        m_cookedMince = new Color(0.4433962f, 0.3069595f, 0.2698024f, 1f);
+        m_cookedMince = new Color(0.2169f, 0.2130f, 0.2118f, 1f);
 
         //m_inPan = false;
         m_isCooked = false;

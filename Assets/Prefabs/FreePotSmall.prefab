@@ -230,6 +230,8 @@ MonoBehaviour:
   m_panOnions: {fileID: 3139771522214525626}
   m_panPeppers: {fileID: 7414690713288969450}
   m_panMince: {fileID: 0}
+  m_clip: {fileID: 0}
+  m_ding: {fileID: 0}
 --- !u!1 &2155716073300563494
 GameObject:
   m_ObjectHideFlags: 0
@@ -679,7 +681,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &124863297316503801
 Transform:
   m_ObjectHideFlags: 0

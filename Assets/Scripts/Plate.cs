@@ -6,15 +6,18 @@ using UnityEngine;
 public class Plate : MonoBehaviour
 {
     PanTrigger m_panTrigger;
+    PanTrigger m_plateTrigger;
 
     public string m_plateContents;
     GameObject m_pan;
-    Quaternion m_plateRotation;
+    GameObject m_finishPlate;
 
     private void Awake()
     {
         m_panTrigger = GameObject.Find("PanTrigger").GetComponent<PanTrigger>();
+        m_plateTrigger = GameObject.Find("PlateTrigger").GetComponent<PanTrigger>();
         m_pan = GameObject.Find("Pan");
+        m_finishPlate = GameObject.Find("SpagetPlate");
     }
 
     private void Update()
@@ -46,6 +49,15 @@ public class Plate : MonoBehaviour
                     case "Passata":
 
                         m_pan.transform.GetChild(5).gameObject.SetActive(true);
+
+                        break;
+
+                    case "Pan":
+
+                        for (int i = 0; i < m_finishPlate.transform.childCount - 2; i++)
+                        {
+                            m_finishPlate.transform.GetChild(i).gameObject.SetActive(true);
+                        }
 
                         break;
 

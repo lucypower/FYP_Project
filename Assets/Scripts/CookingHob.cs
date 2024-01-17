@@ -20,13 +20,15 @@ public class CookingHob : MonoBehaviour
     public AudioClip m_clip;
     public AudioSource m_ding;
 
+    bool m_finalCook;
+    bool m_lidOn;
 
     private void Awake()
     {
         m_onions = m_panOnions.GetComponent<CookingIngredient>();
         m_peppers = m_panPeppers.GetComponent<CookingIngredient>();
         m_mince = m_panMince.GetComponent<CookingIngredient>();
-        //m_ding = m_clip.GetComponent<AudioSource>();
+        m_finalCook = false;
     }
 
     private void Update()
@@ -84,6 +86,25 @@ public class CookingHob : MonoBehaviour
                 }
             }
         }   
+
+        if (m_lidOn)
+        {
+            if (!m_finalCook)
+            {
+                StartCook(45);
+            }
+            else
+            {
+                m_secs -= Time.smoothDeltaTime;
+
+                if (m_secs <= 0)
+                {
+                    FinishCook();
+                }
+            }
+
+            
+        }
     }
 
     public void StartCook(int secs)
@@ -114,7 +135,12 @@ public class CookingHob : MonoBehaviour
             {
                 m_mince.m_isCooking = true;
             }
-        }            
+        }        
+        
+        if (m_lidOn)
+        {
+            m_finalCook = true;
+        }
     }
 
     public void FinishCook()
@@ -145,6 +171,21 @@ public class CookingHob : MonoBehaviour
             }
         }
 
+        m_finalCook = false;
+        m_lidOn = false;
+
         m_ding.PlayOneShot(m_clip);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Lid"))
+        {
+            if (!m_lidOn)
+            {
+                Debug.Log("lid on");
+                m_lidOn = true;
+            }
+        }
     }
 }

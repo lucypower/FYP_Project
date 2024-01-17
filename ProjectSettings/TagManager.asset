@@ -12,6 +12,7 @@ TagManager:
   - PanOnion
   - PanPepper
   - PanMince
+  - Lid
   layers:
   - Default
   - TransparentFX

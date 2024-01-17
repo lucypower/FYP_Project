@@ -45,7 +45,8 @@ public class SliceObjects : MonoBehaviour
         Vector3 normal = Vector3.Cross(m_endSlicePoint.position - m_startSlicePoint.position, velocity);
         normal.Normalize();
 
-        SlicedHull slicedHull = targetObject.Slice(m_endSlicePoint.position, normal);
+        SlicedHull slicedHull = targetObject.Slice(m_endSlicePoint.position, normal);  
+        
 
         if (slicedHull != null)
         {
@@ -53,12 +54,11 @@ public class SliceObjects : MonoBehaviour
             SetupSlicedComponent(upperHull, name);
             upperHull.gameObject.layer = LayerMask.NameToLayer("Sliceable");
             m_gameManager.m_slicedObjs.Add(upperHull);
-            
 
             GameObject lowerHull = slicedHull.CreateLowerHull(targetObject, targetObject.GetComponent<Renderer>().material);
             SetupSlicedComponent(lowerHull, name);
             lowerHull.gameObject.layer = LayerMask.NameToLayer("Sliceable");
-            m_gameManager.m_slicedObjs.Add(lowerHull);
+            m_gameManager.m_slicedObjs.Add(lowerHull);            
 
             if(m_gameManager.m_slicedObjs.Contains(targetObject))
             {

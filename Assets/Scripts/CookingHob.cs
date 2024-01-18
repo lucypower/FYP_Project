@@ -19,6 +19,7 @@ public class CookingHob : MonoBehaviour
 
     public AudioClip m_clip;
     public AudioSource m_ding;
+    public AudioClip m_simmering;
 
     bool m_finalCook;
     bool m_lidOn;
@@ -174,6 +175,7 @@ public class CookingHob : MonoBehaviour
         m_finalCook = false;
         m_lidOn = false;
 
+        m_ding.Stop();
         m_ding.PlayOneShot(m_clip);
     }
 
@@ -184,6 +186,7 @@ public class CookingHob : MonoBehaviour
             if (!m_lidOn)
             {
                 Debug.Log("lid on");
+                m_ding.PlayOneShot(m_simmering);
                 m_lidOn = true;
             }
         }

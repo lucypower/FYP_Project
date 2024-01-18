@@ -21,6 +21,9 @@ public class SliceObjects : MonoBehaviour
 
     public bool m_isCutting;
 
+    public AudioSource m_audioSource;
+    public AudioClip[] m_cuttingAudio;
+
     private void Awake()
     {
         m_gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
@@ -40,6 +43,7 @@ public class SliceObjects : MonoBehaviour
     public void Slice(GameObject targetObject)
     {
         string name = targetObject.name;
+        int random = Random.Range(0, m_cuttingAudio.Length);
 
         Vector3 velocity = m_vEstimator.GetVelocityEstimate();
         Vector3 normal = Vector3.Cross(m_endSlicePoint.position - m_startSlicePoint.position, velocity);
@@ -65,6 +69,7 @@ public class SliceObjects : MonoBehaviour
                 m_gameManager.m_slicedObjs.Remove(targetObject);
             }
 
+            m_audioSource.PlayOneShot(m_cuttingAudio[random]);
             Destroy(targetObject);
         }
     }

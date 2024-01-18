@@ -61,6 +61,22 @@ public class Plate : MonoBehaviour
 
                         break;
 
+                    case "Salt":
+
+                        break;
+
+                    case "Pepper":
+
+                        break;
+
+                    case "WorcestershireSauce":
+
+                        break;
+
+                    case "StockPot":
+
+                        break;
+
                     default:
                         break;
                 }

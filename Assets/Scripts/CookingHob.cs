@@ -18,10 +18,16 @@ public class CookingHob : MonoBehaviour
     CookingIngredient m_mince;
 
     public AudioClip m_clip;
-    public AudioSource m_ding;
+    public AudioSource m_audioSource;
+    public AudioClip m_spices;
+    public AudioClip m_liquidPour;
     public AudioClip m_simmering;
+    public AudioClip m_plop;
+    public AudioClip m_veggies;
+    public AudioClip m_meat;
 
     bool m_finalCook;
+    public bool m_finishedCooking;
     bool m_lidOn;
 
     private void Awake()
@@ -30,6 +36,8 @@ public class CookingHob : MonoBehaviour
         m_peppers = m_panPeppers.GetComponent<CookingIngredient>();
         m_mince = m_panMince.GetComponent<CookingIngredient>();
         m_finalCook = false;
+        m_finishedCooking = false;
+        m_lidOn = false;
     }
 
     private void Update()
@@ -88,7 +96,7 @@ public class CookingHob : MonoBehaviour
             }
         }   
 
-        if (m_lidOn)
+        if (m_lidOn && !m_finishedCooking)
         {
             if (!m_finalCook)
             {
@@ -101,6 +109,7 @@ public class CookingHob : MonoBehaviour
                 if (m_secs <= 0)
                 {
                     FinishCook();
+                    m_finishedCooking = true;
                 }
             }
 
@@ -140,6 +149,7 @@ public class CookingHob : MonoBehaviour
         
         if (m_lidOn)
         {
+            m_audioSource.PlayOneShot(m_simmering);
             m_finalCook = true;
         }
     }
@@ -172,11 +182,11 @@ public class CookingHob : MonoBehaviour
             }
         }
 
-        m_finalCook = false;
-        m_lidOn = false;
 
-        m_ding.Stop();
-        m_ding.PlayOneShot(m_clip);
+        m_finalCook = false;
+
+        m_audioSource.Stop();
+        m_audioSource.PlayOneShot(m_clip);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -185,10 +195,46 @@ public class CookingHob : MonoBehaviour
         {
             if (!m_lidOn)
             {
-                Debug.Log("lid on");
-                m_ding.PlayOneShot(m_simmering);
+                Debug.Log("lid on");                
                 m_lidOn = true;
             }
         }
+
+        if (other.gameObject.name == "StockPot")
+        {
+            m_audioSource.PlayOneShot(m_plop);
+            Destroy(other.gameObject);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Lid"))
+        {
+            if (m_lidOn)
+            {
+                m_lidOn = false;
+            }
+        }
+    }
+
+    public void Spices()
+    {
+        m_audioSource.PlayOneShot(m_spices);
+    }
+
+    public void Liquid()
+    {
+        m_audioSource.PlayOneShot(m_liquidPour);
+    }
+
+    public void Veggies()
+    {
+        m_audioSource.PlayOneShot(m_veggies);
+    }
+
+    public void Meat()
+    {
+        m_audioSource.PlayOneShot(m_meat);
     }
 }

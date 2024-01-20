@@ -21,6 +21,9 @@ public class SliceObjects : MonoBehaviour
 
     public bool m_isCutting;
 
+    public AudioSource m_audioSource;
+    public AudioClip[] m_cuttingAudio;
+
     private void Awake()
     {
         m_gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
@@ -40,12 +43,14 @@ public class SliceObjects : MonoBehaviour
     public void Slice(GameObject targetObject)
     {
         string name = targetObject.name;
+        int random = Random.Range(0, m_cuttingAudio.Length);
 
         Vector3 velocity = m_vEstimator.GetVelocityEstimate();
         Vector3 normal = Vector3.Cross(m_endSlicePoint.position - m_startSlicePoint.position, velocity);
         normal.Normalize();
 
-        SlicedHull slicedHull = targetObject.Slice(m_endSlicePoint.position, normal);
+        SlicedHull slicedHull = targetObject.Slice(m_endSlicePoint.position, normal);  
+        
 
         if (slicedHull != null)
         {
@@ -53,18 +58,18 @@ public class SliceObjects : MonoBehaviour
             SetupSlicedComponent(upperHull, name);
             upperHull.gameObject.layer = LayerMask.NameToLayer("Sliceable");
             m_gameManager.m_slicedObjs.Add(upperHull);
-            
 
             GameObject lowerHull = slicedHull.CreateLowerHull(targetObject, targetObject.GetComponent<Renderer>().material);
             SetupSlicedComponent(lowerHull, name);
             lowerHull.gameObject.layer = LayerMask.NameToLayer("Sliceable");
-            m_gameManager.m_slicedObjs.Add(lowerHull);
+            m_gameManager.m_slicedObjs.Add(lowerHull);            
 
             if(m_gameManager.m_slicedObjs.Contains(targetObject))
             {
                 m_gameManager.m_slicedObjs.Remove(targetObject);
             }
 
+            m_audioSource.PlayOneShot(m_cuttingAudio[random]);
             Destroy(targetObject);
         }
     }

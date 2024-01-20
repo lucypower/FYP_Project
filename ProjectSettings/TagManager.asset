@@ -11,6 +11,8 @@ TagManager:
   - Mince
   - PanOnion
   - PanPepper
+  - PanMince
+  - Lid
   layers:
   - Default
   - TransparentFX
@@ -19,9 +21,9 @@ TagManager:
   - Water
   - UI
   - Sliceable
-  - 
-  - 
-  - 
+  - Body
+  - Interactable
+  - Interactable Ignore
   - 
   - 
   - 

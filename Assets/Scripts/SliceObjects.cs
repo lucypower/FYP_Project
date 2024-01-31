@@ -24,6 +24,9 @@ public class SliceObjects : MonoBehaviour
     public AudioSource m_audioSource;
     public AudioClip[] m_cuttingAudio;
 
+    public Material m_onion;
+    public Material m_pepper;
+
 
     private void Awake()
     {
@@ -94,9 +97,17 @@ public class SliceObjects : MonoBehaviour
             slicedObject.AddComponent<CookingIngredient>();
         }
 
+        if (slicedObject.GetComponent<SliceMaterial>() == null)
+        {
+            slicedObject.AddComponent<SliceMaterial>();
+        }
+
         switch (name)
         {
             case "Onion":
+
+                SliceMaterial onionMaterial = slicedObject.GetComponent<SliceMaterial>();
+                onionMaterial.m_material = m_onion;
 
                 slicedObject.tag = "Onion";
                 slicedObject.name = "Onion";
@@ -104,6 +115,9 @@ public class SliceObjects : MonoBehaviour
                 break;
 
             case "RedPepper":
+
+                SliceMaterial pepperMaterial = slicedObject.GetComponent<SliceMaterial>();
+                pepperMaterial.m_material = m_pepper;
 
                 slicedObject.tag = "Pepper";
                 slicedObject.name = "RedPepper";

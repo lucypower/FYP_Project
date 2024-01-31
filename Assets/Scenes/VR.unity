@@ -3421,6 +3421,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 62fc1d2dd268a8c408311a0e0045a77e, type: 3}
   - {fileID: 8300000, guid: 93fd6d56cf1919f4391f12ff68d2814d, type: 3}
   - {fileID: 8300000, guid: 4d318628576f93e42930379bb615a147, type: 3}
+  m_onion: {fileID: 2100000, guid: 5edbdc0e77ebff94f8dd30a061287983, type: 2}
+  m_pepper: {fileID: 2100000, guid: 0b835fcc7a239f341b04207dfb258342, type: 2}
 --- !u!82 &901483573
 AudioSource:
   m_ObjectHideFlags: 0

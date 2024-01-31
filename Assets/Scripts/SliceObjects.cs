@@ -24,6 +24,7 @@ public class SliceObjects : MonoBehaviour
     public AudioSource m_audioSource;
     public AudioClip[] m_cuttingAudio;
 
+
     private void Awake()
     {
         m_gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
@@ -50,16 +51,19 @@ public class SliceObjects : MonoBehaviour
         normal.Normalize();
 
         SlicedHull slicedHull = targetObject.Slice(m_endSlicePoint.position, normal);  
+
         
 
         if (slicedHull != null)
         {
-            GameObject upperHull = slicedHull.CreateUpperHull(targetObject, targetObject.GetComponent<Renderer>().material);
+            //GameObject upperHull = slicedHull.CreateUpperHull(targetObject, targetObject.GetComponent<Renderer>().material);
+            GameObject upperHull = slicedHull.CreateUpperHull(targetObject, targetObject.GetComponent<SliceMaterial>().m_material);
             SetupSlicedComponent(upperHull, name);
             upperHull.gameObject.layer = LayerMask.NameToLayer("Sliceable");
             m_gameManager.m_slicedObjs.Add(upperHull);
 
-            GameObject lowerHull = slicedHull.CreateLowerHull(targetObject, targetObject.GetComponent<Renderer>().material);
+            //GameObject lowerHull = slicedHull.CreateLowerHull(targetObject, targetObject.GetComponent<Renderer>().material);
+            GameObject lowerHull = slicedHull.CreateLowerHull(targetObject, targetObject.GetComponent<SliceMaterial>().m_material);
             SetupSlicedComponent(lowerHull, name);
             lowerHull.gameObject.layer = LayerMask.NameToLayer("Sliceable");
             m_gameManager.m_slicedObjs.Add(lowerHull);            

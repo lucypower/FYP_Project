@@ -4,25 +4,40 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 public class CookingHob : MonoBehaviour
-{
-    // heat : 0 - low / 1 - med / 2 - high
-    // take from hob settings
-    
+{    
     public float m_secs;
     public float m_secsToCook;
-    //public bool m_hobOn;
 
     public GameObject m_panOnions;
     CookingIngredient m_onions;
     
     public GameObject m_panPeppers;
     CookingIngredient m_peppers;
-    
+
+    public GameObject m_panMince;
+    CookingIngredient m_mince;
+
+    public AudioClip m_clip;
+    public AudioSource m_audioSource;
+    public AudioClip m_spices;
+    public AudioClip m_liquidPour;
+    public AudioClip m_simmering;
+    public AudioClip m_plop;
+    public AudioClip m_veggies;
+    public AudioClip m_meat;
+
+    bool m_finalCook;
+    public bool m_finishedCooking;
+    bool m_lidOn;
 
     private void Awake()
     {
         m_onions = m_panOnions.GetComponent<CookingIngredient>();
         m_peppers = m_panPeppers.GetComponent<CookingIngredient>();
+        m_mince = m_panMince.GetComponent<CookingIngredient>();
+        m_finalCook = false;
+        m_finishedCooking = false;
+        m_lidOn = false;
     }
 
     private void Update()
@@ -31,7 +46,7 @@ public class CookingHob : MonoBehaviour
         {
             if (!m_onions.m_isCooking && !m_onions.m_isCooked)
             {
-                StartCook();
+                StartCook(15);
             }
             else if (m_onions.m_isCooking && !m_onions.m_isCooked)
             {
@@ -49,7 +64,7 @@ public class CookingHob : MonoBehaviour
         {
             if (!m_peppers.m_isCooking && !m_peppers.m_isCooked)
             {
-                StartCook();
+                StartCook(15);
             }
             else if (m_peppers.m_isCooking && !m_peppers.m_isCooked)
             {
@@ -63,48 +78,79 @@ public class CookingHob : MonoBehaviour
             }
         }
 
+        if (m_panMince.activeInHierarchy)
+        {
+            if (!m_mince.m_isCooking && !m_mince.m_isCooked)
+            {
+                StartCook(30);
+            }
+            else if (m_mince.m_isCooking && !m_mince.m_isCooked)
+            {
+                m_secs -= Time.smoothDeltaTime;
 
+                if (m_secs <= 0)
+                {
+                    m_mince.m_isCooked = true;
+                    FinishCook();
+                }
+            }
+        }   
 
-        //if (m_panOnions.activeInHierarchy)
-        //{
-        //    for (int i = 0; i < m_onions.Length; i++)
-        //    {
-        //        if (!m_onions[i].m_isCooking)
-        //        {
-        //            m_onions[i].m_isCooking = true;
-        //            StartCook();
-        //        }
-        //    }
-        //}
+        if (m_lidOn && !m_finishedCooking)
+        {
+            if (!m_finalCook)
+            {
+                StartCook(45);
+            }
+            else
+            {
+                m_secs -= Time.smoothDeltaTime;
 
-        //for (int i = 0; i < m_onions.Length; i++)
-        //{
-        //    if (m_onions[i].m_isCooking)
-        //    {
-        //        m_secs -= Time.smoothDeltaTime;
+                if (m_secs <= 0)
+                {
+                    FinishCook();
+                    m_finishedCooking = true;
+                }
+            }
 
-        //        if (m_secs <= 0)
-        //        {
-        //            m_onions[i].m_isCooking = false;
-        //            m_onions[i].m_isCooked = true;
-        //            FinishCook();
-        //        }
-        //    }
-        //}       
+            
+        }
     }
 
-    public void StartCook()
+    public void StartCook(int secs)
     {
-        Debug.Log("Start Cook");    
+        m_secs = secs;
 
-        if (!m_onions.m_isCooked)
+        Debug.Log("Start Cook");
+
+        if (m_panOnions.activeInHierarchy)
         {
-            m_onions.m_isCooking = true;
+            if (!m_onions.m_isCooked)
+            {
+                m_onions.m_isCooking = true;
+            }
         }
 
-        if (!m_peppers.m_isCooked)
+        if (m_panPeppers.activeInHierarchy)
         {
-            m_peppers.m_isCooking = true;
+            if (!m_peppers.m_isCooked)
+            {
+                m_peppers.m_isCooking = true;
+            }
+        }
+
+        if (m_panMince.activeInHierarchy)
+        {
+            if (!m_mince.m_isCooked)
+            {
+                m_mince.m_isCooking = true;
+            }
+        }        
+        
+        if (m_lidOn)
+        {
+            m_audioSource.PlayOneShot(m_simmering);
+            m_finalCook = true;
         }
     }
 
@@ -112,70 +158,83 @@ public class CookingHob : MonoBehaviour
     {       
         Debug.Log("Stop Cook");
 
-        if (m_onions.m_isCooked)
+        if (m_panOnions.activeInHierarchy)
         {
-            m_onions.m_isCooking = false;
+            if (m_onions.m_isCooked)
+            {
+                m_onions.m_isCooking = false;
+            }
         }
 
-        if (m_peppers.m_isCooked)
+        if (m_panPeppers.activeInHierarchy)
         {
-            m_peppers.m_isCooking = false;
+            if (m_peppers.m_isCooked)
+            {
+                m_peppers.m_isCooking = false;
+            }
+        }
+
+        if (m_panMince.activeInHierarchy)
+        {
+            if (m_mince.m_isCooked)
+            {
+                m_mince.m_isCooking = false;
+            }
+        }
+
+
+        m_finalCook = false;
+
+        m_audioSource.Stop();
+        m_audioSource.PlayOneShot(m_clip);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Lid"))
+        {
+            if (!m_lidOn)
+            {
+                Debug.Log("lid on");                
+                m_lidOn = true;
+            }
+        }
+
+        if (other.gameObject.name == "StockPot")
+        {
+            m_audioSource.PlayOneShot(m_plop);
+            Destroy(other.gameObject);
         }
     }
 
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Lid"))
+        {
+            if (m_lidOn)
+            {
+                m_lidOn = false;
+            }
+        }
+    }
 
+    public void Spices()
+    {
+        m_audioSource.PlayOneShot(m_spices);
+    }
 
+    public void Liquid()
+    {
+        m_audioSource.PlayOneShot(m_liquidPour);
+    }
 
+    public void Veggies()
+    {
+        m_audioSource.PlayOneShot(m_veggies);
+    }
 
-    //private void Update()
-    //{
-    //    //if (m_isCooking)
-    //    //{
-    //    //    m_secs -= Time.smoothDeltaTime;            
-
-    //    //    if (m_secs <= 0)
-    //    //    {
-    //    //        FinishCook();
-    //    //    }
-    //    //}
-    //}
-
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    //if (m_hobOn)
-    //    //{
-    //    //    if (other.gameObject.CompareTag("Onion"))
-    //    //    {
-    //    //        Debug.Log("onion");
-    //    //        StartCook(15);
-    //    //    }
-    //    //}
-    //}
-
-    //public void StartCook(float secs) 
-    //{
-    //    Debug.Log("Start Cook");
-    //    m_secs = secs;  
-
-    //    m_isCooking = true;        
-    //}
-
-    //public void FinishCook()
-    //{
-    //    Debug.Log("Finish Cook"); //play ding to tell players its done
-
-    //    m_isCooking = false;
-    //}
-
-    //public void HobOnOff()
-    //{
-    //    if (!m_hobOn)
-    //    {
-    //        m_hobOn = true;
-    //    }
-    //    else
-    //    {
-    //        m_hobOn = false;
-    //    }
-    //}
+    public void Meat()
+    {
+        m_audioSource.PlayOneShot(m_meat);
+    }
 }

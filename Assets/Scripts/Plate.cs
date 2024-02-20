@@ -25,7 +25,7 @@ public class Plate : MonoBehaviour
 
     private void Update()
     {
-        if (m_panTrigger.m_overHob)
+        if (m_panTrigger.m_overHob && m_panTrigger.m_onHob)
         {
             if (transform.up.y < 0f)
             {
@@ -35,6 +35,7 @@ public class Plate : MonoBehaviour
 
                         m_pan.transform.GetChild(2).gameObject.SetActive(true);
                         m_cookingHob.Veggies();
+                        m_panTrigger.m_overHob = false;
                         Destroy(this.gameObject);
 
                         break;
@@ -43,6 +44,7 @@ public class Plate : MonoBehaviour
 
                         m_pan.transform.GetChild(3).gameObject.SetActive(true);
                         m_cookingHob.Veggies();
+                        m_panTrigger.m_overHob = false;
                         Destroy(this.gameObject);
 
                         break;
@@ -51,6 +53,7 @@ public class Plate : MonoBehaviour
 
                         m_pan.transform.GetChild(4).gameObject.SetActive(true);
                         m_cookingHob.Meat();
+                        m_panTrigger.m_overHob = false;
                         Destroy(this.gameObject);
 
                         break;
@@ -58,6 +61,7 @@ public class Plate : MonoBehaviour
                     case "Passata":
 
                         m_pan.transform.GetChild(5).gameObject.SetActive(true);
+                        m_panTrigger.m_overHob = false;
                         Destroy(this.gameObject);
 
                         break;                    
@@ -68,6 +72,7 @@ public class Plate : MonoBehaviour
                     case "WorcestershireSauce":
 
                         m_cookingHob.Liquid();
+                        m_panTrigger.m_overHob = false;
                         Destroy(this.gameObject);
 
                         break;
@@ -85,6 +90,7 @@ public class Plate : MonoBehaviour
                     case "Oregano":
 
                         m_cookingHob.Spices();
+                        m_panTrigger.m_overHob = false;
                         Destroy(this.gameObject);
 
                         break;
@@ -92,6 +98,7 @@ public class Plate : MonoBehaviour
                     case "Salt":
                                                
                         m_cookingHob.Spices();
+                        m_panTrigger.m_overHob = false;
                         Destroy(this.gameObject);
 
                         break;
@@ -99,6 +106,7 @@ public class Plate : MonoBehaviour
                     case "Pepper":
 
                         m_cookingHob.Spices();
+                        m_panTrigger.m_overHob = false;
                         Destroy(this.gameObject);
 
                         break;
